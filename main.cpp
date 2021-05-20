@@ -1,6 +1,5 @@
 #include <iostream>
-#include "List.h"
-#include "String.h"
+#include "Stack.h"
 #include "Calculator.h"
 
 using namespace std;
