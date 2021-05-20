@@ -23,7 +23,7 @@ private:
                             계산된 값은 value 에 저장, 오류시 적절한 코드를 errCode 에 저장 (오류코드는 각자가 정의) */
 
 public:
-    void setTokens(char *sen);
+    void setTokens(char *sen); //받은 문자열을 토큰으로 변환해서 저장
 
     int getErrorCode(); // 오류코드 반환
 
@@ -78,12 +78,12 @@ void Calculator::setTokens(char *sen)
             maskBit[i] = -1;
     }
 
-    //verified!
-
     int anch = 0;
 
     for (int i = 0; i < charCount; i++)
     {
+        if (maskBit[i] == -99)
+            throw "숫자나 괄호, 사칙연산만 입력 가능";
         if (maskBit[i] == 1)
         {
             String tmp;
@@ -103,5 +103,6 @@ void Calculator::setTokens(char *sen)
         }
     }
 
-    tokens.print();
+    //tokens.print();
+    //verified!
 }

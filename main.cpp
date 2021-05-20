@@ -15,7 +15,14 @@ int main()
 
     Calculator c;
 
-    c.setTokens(expr);
+    try
+    {
+        c.setTokens(expr);
+    }
+    catch (const char *msg)
+    {
+        cout << msg << endl;
+    }
 
     // if (!c.setExpression(expr))
 
