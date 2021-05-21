@@ -36,6 +36,11 @@ public:
     // 수식 오류없음 --> 결과값 리턴
 };
 
+int Calculator::getErrorCode()
+{
+    return errCode;
+}
+
 void Calculator::setTokens(char *sen)
 {
     int charCount = 0;
@@ -83,7 +88,10 @@ void Calculator::setTokens(char *sen)
     for (int i = 0; i < charCount; i++)
     {
         if (maskBit[i] == -99)
-            throw "숫자나 괄호, 사칙연산만 입력 가능";
+        {
+            errCode = -1;
+            throw errCode;
+        }
         if (maskBit[i] == 1)
         {
             String tmp;

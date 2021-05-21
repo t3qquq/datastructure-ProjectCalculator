@@ -4,6 +4,12 @@
 
 using namespace std;
 
+void errExplain(int err)
+{
+    if (err == -1)
+        cout << "자연수, 괄호 및 사칙연산만 입력 가능" << endl;
+}
+
 int main()
 {
     char expr[1000];
@@ -18,9 +24,9 @@ int main()
     {
         c.setTokens(expr);
     }
-    catch (const char *msg)
+    catch (int err)
     {
-        cout << msg << endl;
+        errExplain(err);
     }
 
     // if (!c.setExpression(expr))
