@@ -1,6 +1,7 @@
 #pragma once
 #include "List.h"
 #include "String.h"
+#include "Stack.h"
 
 class Calculator
 {
@@ -22,8 +23,10 @@ private:
                             계산된 값을 구함, 오류 없는경우 0, 오류가 있는 경우, 1을 반환
                             계산된 값은 value 에 저장, 오류시 적절한 코드를 errCode 에 저장 (오류코드는 각자가 정의) */
 
-public:
     void setTokens(char *sen); //받은 문자열을 토큰으로 변환해서 저장
+
+public:
+    Calculator();
 
     int getErrorCode(); // 오류코드 반환
 
@@ -35,6 +38,12 @@ public:
     int getValue(); // 수식 오류있음 --> 예외발생
     // 수식 오류없음 --> 결과값 리턴
 };
+
+Calculator::Calculator()
+{
+    String postInit((char *)" ", 1);
+    postfix = postInit;
+}
 
 int Calculator::getErrorCode()
 {
@@ -90,7 +99,7 @@ void Calculator::setTokens(char *sen)
         if (maskBit[i] == -99)
         {
             errCode = -1;
-            throw errCode;
+            throw "자연수, 괄호 및 사칙연산만 입력 가능";
         }
         if (maskBit[i] == 1)
         {
@@ -111,6 +120,81 @@ void Calculator::setTokens(char *sen)
         }
     }
 
-    //tokens.print();
+    // tokens.print();
     //verified!
+}
+
+int Calculator::makePostFix()
+{
+    Stack<String> tokenStack;
+    List<String> postTokens;
+    String tmp;
+    String token;
+
+    String plu((char *)"+", 1);
+    String min((char *)"-", 1);
+    String mul((char *)"*", 1);
+    String div((char *)"/", 1);
+    String lef((char *)"(", 1);
+    String rig((char *)")", 1);
+
+    String spc((char *)" ", 1);
+
+    for (int i = 0; i < tokens.chItmCnt(); i++)
+    {
+
+        token = tokens.getItem(i);
+
+        if (token == lef)
+
+            continue;
+
+        else if (token == plu || token == min || token == mul || token == div)
+        {
+            tmp = token;
+            tokenStack.Push(tmp);
+        }
+        else if (token == rig)
+        {
+            tmp = tokenStack.Pop();
+            postTokens.addItem(tmp);
+        }
+        else
+        {
+            tmp = token;
+            postTokens.addItem(tmp);
+        }
+    }
+
+    while (!tokenStack.isEmpty())
+    {
+        tmp = tokenStack.Pop();
+        postTokens.addItem(tmp);
+    }
+
+    for (int i = 0; i < postTokens.chItmCnt(); i++)
+    {
+        tmp = postTokens.getItem(i);
+        postfix = postfix.Concat(tmp);
+        postfix = postfix.Concat(spc);
+    }
+
+    //getPostFix().print();
+
+    if (errCode == -1)
+        return 1;
+    else
+        return 0;
+}
+
+int Calculator::setExpression(const char *expr)
+{
+    char *nexpr = (char *)expr;
+    setTokens(nexpr);
+    makePostFix();
+}
+
+String Calculator::getPostFix()
+{
+    return postfix;
 }

@@ -22,13 +22,14 @@ int main()
 
     try
     {
-        c.setTokens(expr);
+        c.setExpression(expr);
     }
-    catch (int err)
+    catch (const char *erc)
     {
-        errExplain(err);
+        cout << erc;
     }
 
+    //   c.getPostFix().print();
     // if (!c.setExpression(expr))
 
     // {

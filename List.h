@@ -26,6 +26,7 @@ public:
 	int removeItem(T itm);
 	void concat(List &list);
 	void print();
+	int chItmCnt();
 };
 
 /*
@@ -167,4 +168,10 @@ void List<T>::print()
 	{
 		getItem(i).print();
 	}
+}
+
+template <typename T>
+int List<T>::chItmCnt()
+{
+	return itemCount;
 }

@@ -17,6 +17,9 @@ public:
     void Push(T item);
     T Pop();
     T peek();
+    void print();
+
+    bool isEmpty();
 };
 
 template <typename T>
@@ -77,4 +80,19 @@ T Stack<T>::peek()
         return items[top - 1];
     else
         throw "Stack is empty";
+}
+
+template <typename T>
+bool Stack<T>::isEmpty()
+{
+    return (top == 0);
+}
+
+template <typename T>
+void Stack<T>::print()
+{
+    for (int i = 0; i < top; i++)
+    {
+        items[i].print();
+    }
 }
